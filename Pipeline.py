@@ -282,6 +282,8 @@ for epoch in range(EPOCHS):
 with torch.no_grad():
     total_acc_val = 0
     total_loss_val = 0
+    all_preds = []
+    all_labels = []
     for inputs, labels in val_loader:
         predictions = google_net(inputs)
 
@@ -289,9 +291,31 @@ with torch.no_grad():
         total_acc_val += acc
 
         val_loss = loss_fun(predictions, labels)
-        total_loss_val += val_loss.item()   
+        total_loss_val += val_loss.item()
+
+        all_preds.extend(torch.argmax(predictions, axis=1).cpu().numpy())
+        all_labels.extend(labels.cpu().numpy())
 
     print(f"Validation Loss: {total_loss_val/len(val_loader):.4f}, Validation Accuracy: {total_acc_val/val_dataset.__len__()*100:.2f}%")
+
+    # Confusion Matrix
+    from sklearn.metrics import confusion_matrix, classification_report
+    import seaborn as sns
+
+    cm = confusion_matrix(all_labels, all_preds)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=class_names, yticklabels=class_names)
+    plt.title('Confusion Matrix - Full Training')
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.show()
+
+    print("Classification Report:")
+    print(classification_report(all_labels, all_preds, target_names=class_names))
+
+# Save the trained model
+torch.save(google_net.state_dict(), 'bean_lesion_full_training.pth')
+print("Full training model saved as 'bean_lesion_full_training.pth'")
 
 
 # Transfer Learning
@@ -353,6 +377,8 @@ for epoch in range(EPOCHS):
 with torch.no_grad():
     total_acc_val = 0
     total_loss_val = 0
+    all_preds = []
+    all_labels = []
     for inputs, labels in val_loader:
         predictions = Google_Transfer(inputs)
 
@@ -360,9 +386,31 @@ with torch.no_grad():
         total_acc_val += acc
 
         val_loss = loss_fun(predictions, labels)
-        total_loss_val += val_loss.item()   
+        total_loss_val += val_loss.item()
+
+        all_preds.extend(torch.argmax(predictions, axis=1).cpu().numpy())
+        all_labels.extend(labels.cpu().numpy())
 
     print(f"Validation Loss: {total_loss_val/len(val_loader):.4f}, Validation Accuracy: {total_acc_val/val_dataset.__len__()*100:.2f}%")
+
+    # Confusion Matrix
+    from sklearn.metrics import confusion_matrix, classification_report
+    import seaborn as sns
+
+    cm = confusion_matrix(all_labels, all_preds)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=class_names, yticklabels=class_names)
+    plt.title('Confusion Matrix - Transfer Learning')
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.show()
+
+    print("Classification Report:")
+    print(classification_report(all_labels, all_preds, target_names=class_names))
+
+# Save the trained model
+torch.save(Google_Transfer.state_dict(), 'bean_lesion_transfer_learning.pth')
+print("Transfer learning model saved as 'bean_lesion_transfer_learning.pth'")
 
 
 # In[ ]:

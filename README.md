@@ -91,6 +91,8 @@ The project implements two training approaches using GoogleNet (Inception v1):
 
 ### Confusion Matrix
 
+![Confusion Matrix](confusion_matrix.png)
+
 ```
 Confusion Matrix:
 [[43  1  0]

@@ -89,6 +89,29 @@ The project implements two training approaches using GoogleNet (Inception v1):
 - **Input Size**: 128x128 pixels
 - **Classes**: 3 (healthy, angular_leaf_spot, bean_rust)
 
+### Confusion Matrix
+
+```
+Confusion Matrix:
+[[43  1  0]
+ [ 1 43  0]
+ [ 1  0 44]]
+```
+
+### Classification Report
+
+```
+                   precision    recall  f1-score   support
+
+angular_leaf_spot       0.96      0.98      0.97        44
+        bean_rust       0.98      0.98      0.98        44
+          healthy       1.00      0.98      0.99        45
+
+         accuracy                           0.98       133
+        macro avg       0.98      0.98      0.98       133
+     weighted avg       0.98      0.98      0.98       133
+```
+
 **Note**: Inference tests revealed misclassifications where healthy images are predicted as angular_leaf_spot with high confidence (~0.999), angular_leaf_spot as bean_rust (~0.990), and bean_rust as healthy (~0.997). This suggests potential issues with data preprocessing or model generalization that may require further investigation.
 
 ## Configuration

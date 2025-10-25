@@ -79,10 +79,17 @@ For an interactive experience, open and run `Pipeline.ipynb` in Jupyter.
 
 ## Model Performance
 
-- **Validation Accuracy**: 97.74%
+The project implements two training approaches using GoogleNet (Inception v1):
+
+1. **Transfer Learning with Frozen Backbone**: Pre-trained GoogleNet layers are frozen, and only new classification layers are trained.
+2. **Full Training**: All layers of GoogleNet are fine-tuned for the bean lesion classification task.
+
+- **Validation Accuracy**: 97.74% (Full Training model)
 - **Architecture**: GoogleNet (Inception v1)
 - **Input Size**: 128x128 pixels
 - **Classes**: 3 (healthy, angular_leaf_spot, bean_rust)
+
+**Note**: Inference tests revealed misclassifications where healthy images are predicted as angular_leaf_spot with high confidence (~0.999), angular_leaf_spot as bean_rust (~0.990), and bean_rust as healthy (~0.997). This suggests potential issues with data preprocessing or model generalization that may require further investigation.
 
 ## Configuration
 

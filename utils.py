@@ -65,4 +65,5 @@ def plot_confusion_matrix(cm, class_names, title="Confusion Matrix"):
     plt.title(title)
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.show()
+    plt.savefig('confusion_matrix.png', dpi=300, bbox_inches='tight')
+    plt.close()
